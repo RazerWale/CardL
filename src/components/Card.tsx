@@ -30,6 +30,35 @@ export const Card = () => {
   };
   // console.log(getRandomWord(jason));
   // debugger;
+
+  const synthesis = window.speechSynthesis;
+
+  const handleSpeak = (voice: any) => {
+    if (synthesis.speaking) {
+      synthesis.cancel();
+    }
+
+    const textToSpeak = voice ? `${voice}` : "";
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    const voices = speechSynthesis.getVoices();
+
+    if (voice === jason?.eng) {
+      utterance.lang = "en-EN";
+      utterance.rate = 1;
+      utterance.voice = voices[158];
+    } else {
+      utterance.lang = "ko-KR";
+      utterance.rate = 0.8;
+      utterance.voice = voices[168];
+    }
+
+    synthesis.speak(utterance);
+  };
+  speechSynthesis.onvoiceschanged = () => {
+    const voices = speechSynthesis.getVoices();
+    console.log(voices);
+  };
+
   const flipingCard = () => {
     setFlipCard((flip) => !flip);
 
@@ -48,6 +77,12 @@ export const Card = () => {
       </div>
       <button className="nextBtn" onClick={() => getRandomWord(jasonData)}>
         Next
+      </button>
+      <button className="nextBtn" onClick={() => handleSpeak(jason?.kor)}>
+        Kor
+      </button>
+      <button className="nextBtn" onClick={() => handleSpeak(jason?.eng)}>
+        Eng
       </button>
     </>
   );
