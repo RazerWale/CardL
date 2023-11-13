@@ -1,7 +1,8 @@
 .flipper {
   /* Sizing */
-  height: 100%;
-  width: 100%;
+  width: 23rem;
+  aspect-ratio: 1/1;
+  /* height: 23rem; */
 
   transform-style: preserve-3d;
 
@@ -53,6 +54,15 @@
 }
 
 .nextBtn {
-  margin: 0 auto;
+  /* margin: 0 auto; */
   padding: 0.5rem 2rem;
+}
+
+.nextAndPrevBtn {
+  height: 2rem;
+  margin: 2rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

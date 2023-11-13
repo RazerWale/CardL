@@ -68,22 +68,26 @@ export const Card = () => {
   return (
     <>
       <div className="card">
+        <button className="nextAndPrevBtn">&#8249;</button>
         <CSSTransition in={flipCard} timeout={300} classNames="card">
           <div className="flipper" onClick={flipingCard} ref={nodeRef}>
             <div className="frontCard">{jason?.kor}</div>
             <div className="backCard">{jason?.eng}</div>
           </div>
         </CSSTransition>
+        <button className="nextAndPrevBtn">&#62;</button>
       </div>
-      <button className="nextBtn" onClick={() => getRandomWord(jasonData)}>
-        Next
-      </button>
-      <button className="nextBtn" onClick={() => handleSpeak(jason?.kor)}>
-        Kor
-      </button>
-      <button className="nextBtn" onClick={() => handleSpeak(jason?.eng)}>
-        Eng
-      </button>
+      <div className="buttons">
+        <button className="nextBtn" onClick={() => getRandomWord(jasonData)}>
+          Next
+        </button>
+        <button className="nextBtn" onClick={() => handleSpeak(jason?.kor)}>
+          Kor
+        </button>
+        <button className="nextBtn" onClick={() => handleSpeak(jason?.eng)}>
+          Eng
+        </button>
+      </div>
     </>
   );
 };
