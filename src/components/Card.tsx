@@ -40,7 +40,7 @@ export const Card = () => {
     setJsonIndex(randomIndex);
   };
 
-  const nextWord = () => {
+  const getNextWord = () => {
     if (jsonIndex !== null && jsonData.length > 0) {
       const nextIndex = (jsonIndex + 1) % jsonData.length;
       setJson(jsonData[nextIndex]);
@@ -48,7 +48,7 @@ export const Card = () => {
     }
   };
 
-  const previouseWord = () => {
+  const getPreviouseWord = () => {
     if (jsonIndex !== null && jsonData.length > 0) {
       const previouseIndex =
         (jsonIndex - 1 + jsonData.length) % jsonData.length;
@@ -96,7 +96,7 @@ export const Card = () => {
   return (
     <>
       <div className="card">
-        <button className="nextAndPrevBtn" onClick={() => previouseWord()}>
+        <button className="nextAndPrevBtn" onClick={() => getPreviouseWord()}>
           &#8249;
         </button>
         <CSSTransition in={flipCard} timeout={300} classNames="card">
@@ -105,19 +105,27 @@ export const Card = () => {
             <div className="backCard">{jason?.eng}</div>
           </div>
         </CSSTransition>
-        <button className="nextAndPrevBtn" onClick={() => nextWord()}>
-          &#62;
-        </button>
+        <div className="rightBtns">
+          <button
+            className="speakBtn kor"
+            onClick={() => handleSpeak(jason?.kor)}
+          >
+            Kor
+          </button>
+          <button
+            className="speakBtn eng"
+            onClick={() => handleSpeak(jason?.eng)}
+          >
+            Eng
+          </button>
+          <button className="nextAndPrevBtn" onClick={() => getNextWord()}>
+            &#62;
+          </button>
+        </div>
       </div>
       <div className="buttons">
         <button className="nextBtn" onClick={() => getRandomWord(jsonData)}>
           Next
-        </button>
-        <button className="nextBtn" onClick={() => handleSpeak(jason?.kor)}>
-          Kor
-        </button>
-        <button className="nextBtn" onClick={() => handleSpeak(jason?.eng)}>
-          Eng
         </button>
       </div>
     </>
