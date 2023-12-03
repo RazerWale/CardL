@@ -1,5 +1,5 @@
-[
-  {
+const jsonData = [
+{
     "kor": "것",
     "eng": "A thing or an object"
   },
@@ -4000,3 +4000,5 @@
     "eng": "To include,contain"
   }
 ]
+
+export default jsonData

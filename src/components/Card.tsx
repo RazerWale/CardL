@@ -1,8 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import "./card.css";
 import "./cardFlipper.css";
-import jasonData from "../words.json";
+import jsonData from "../words";
+
+jsonData.forEach((item) => {
+  item.kor = item.kor.replace(/,/g, ", "); // Adds a space after commas in "kor"
+  item.eng = item.eng.replace(/,/g, ", "); // Adds a space after commas in "eng"
+});
 
 interface WordObject {
   kor: string;
@@ -14,19 +19,42 @@ type WordArray = WordObject[];
 
 export const Card = () => {
   const [flipCard, setFlipCard] = useState(true);
-  const [jason, setJason] = useState<WordObject | null>(null);
+  const [jason, setJson] = useState<WordObject | null>(null);
   const nodeRef = useRef(null);
+  const [jsonIndex, setJsonIndex] = useState<number | null>(0);
+
+  console.log(jsonIndex);
+  console.log(jason);
+
+  useEffect(() => {
+    getRandomWord(jsonData);
+  }, []);
 
   const getRandomWord = (data: WordArray) => {
     if (data.length === 0) {
-      return null;
+      setJson(null);
+      return;
     }
     const randomIndex = Math.floor(Math.random() * data.length);
+    setJson(data[randomIndex]);
+    setJsonIndex(randomIndex);
+  };
 
-    const randomWord = () => {
-      setJason(data[randomIndex]);
-    };
-    randomWord();
+  const nextWord = () => {
+    if (jsonIndex !== null && jsonData.length > 0) {
+      const nextIndex = (jsonIndex + 1) % jsonData.length;
+      setJson(jsonData[nextIndex]);
+      setJsonIndex(nextIndex);
+    }
+  };
+
+  const previouseWord = () => {
+    if (jsonIndex !== null && jsonData.length > 0) {
+      const previouseIndex =
+        (jsonIndex - 1 + jsonData.length) % jsonData.length;
+      setJson(jsonData[previouseIndex]);
+      setJsonIndex(previouseIndex);
+    }
   };
   // console.log(getRandomWord(jason));
   // debugger;
@@ -54,10 +82,10 @@ export const Card = () => {
 
     synthesis.speak(utterance);
   };
-  speechSynthesis.onvoiceschanged = () => {
-    const voices = speechSynthesis.getVoices();
-    console.log(voices);
-  };
+  // speechSynthesis.onvoiceschanged = () => {
+  //   const voices = speechSynthesis.getVoices();
+  //   // console.log(voices);
+  // };
 
   const flipingCard = () => {
     setFlipCard((flip) => !flip);
@@ -68,17 +96,21 @@ export const Card = () => {
   return (
     <>
       <div className="card">
-        <button className="nextAndPrevBtn">&#8249;</button>
+        <button className="nextAndPrevBtn" onClick={() => previouseWord()}>
+          &#8249;
+        </button>
         <CSSTransition in={flipCard} timeout={300} classNames="card">
           <div className="flipper" onClick={flipingCard} ref={nodeRef}>
             <div className="frontCard">{jason?.kor}</div>
             <div className="backCard">{jason?.eng}</div>
           </div>
         </CSSTransition>
-        <button className="nextAndPrevBtn">&#62;</button>
+        <button className="nextAndPrevBtn" onClick={() => nextWord()}>
+          &#62;
+        </button>
       </div>
       <div className="buttons">
-        <button className="nextBtn" onClick={() => getRandomWord(jasonData)}>
+        <button className="nextBtn" onClick={() => getRandomWord(jsonData)}>
           Next
         </button>
         <button className="nextBtn" onClick={() => handleSpeak(jason?.kor)}>
