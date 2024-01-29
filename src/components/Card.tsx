@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import "./card.css";
 import "./cardFlipper.css";
 import jsonData from "../words";
+import { TextArea } from "./TextArea";
 
 jsonData.forEach((item) => {
   item.kor = item.kor.replace(/,/g, ", "); // Adds a space after commas in "kor"
@@ -128,6 +129,7 @@ export const Card = () => {
           Next
         </button>
       </div>
+      <TextArea />
     </>
   );
 };
